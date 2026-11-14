@@ -54,11 +54,11 @@ SCALAR_PARAMS = [
     ("SlashSoftness", 0.05, 0.001, 0.35, "SlashControl"),
     ("TailSoftness", 0.35, 0.001, 1.0, "SlashControl"),
     ("UseParticleTime", 0.0, 0.0, 1.0, "Niagara"),
-    ("EmissiveBoost", 4.2, 0.0, 30.0, "Glow"),
+    ("EmissiveBoost", 0.92, 0.0, 30.0, "Glow"),
 ]
 
 VECTOR_PARAMS = [
-    ("GlowTint", (1.0, 0.72, 0.22, 1.0), "Glow"),
+    ("GlowTint", (1.0, 0.95, 0.84, 1.0), "Glow"),
 ]
 
 NODES = [
@@ -237,9 +237,9 @@ def build_outer_glow_material(report):
             MEL.set_material_instance_scalar_parameter_value(mi, "SlashWidth", 1.35)
             MEL.set_material_instance_scalar_parameter_value(mi, "SlashSoftness", 0.05)
             MEL.set_material_instance_scalar_parameter_value(mi, "TailSoftness", 0.35)
-            MEL.set_material_instance_scalar_parameter_value(mi, "EmissiveBoost", 4.2)
+            MEL.set_material_instance_scalar_parameter_value(mi, "EmissiveBoost", 0.92)
             MEL.set_material_instance_vector_parameter_value(
-                mi, "GlowTint", unreal.LinearColor(1.0, 0.72, 0.22, 1.0)
+                mi, "GlowTint", unreal.LinearColor(1.0, 0.95, 0.84, 1.0)
             )
             MEL.update_material_instance(mi)
             EAL.save_asset(mi_path, False)

@@ -38,10 +38,10 @@ ROWS_GLOW = 12
 ROWS_MIST = 10
 EXT_HEAD_PX, EXT_TAIL_PX, EXT_STEPS = 90.0, 56.0, 4
 
-# Narrow outer-rim emissive strip range around d=0 (exact golden rim spine):
-# -155 px (~ -62 cm outward for rich golden Bloom aura) to +95 px (~ +38 cm inward, covering golden rim without touching cyan curls)
-GLOW_D_OUTER_PX = -155.0
-GLOW_D_INNER_PX = 95.0
+# Feather-soft outer-rim emissive strip overlapping Blade's warm golden zone (+52 px inward)
+# and giving generous zero-alpha feather headroom outward (-78 px) while visible glow stays compact (~12-15 cm)!
+GLOW_D_OUTER_PX = -78.0
+GLOW_D_INNER_PX = 52.0
 
 
 def polyline_length(pts):
@@ -448,8 +448,8 @@ def render_tutorial_mesh_diagrams():
     )
     mat_arc_wire = make_emission_mat("ArcWire", (0.48, 0.90, 1.0, 1.0), 2.2)
     mat_strip_clay = make_principled_mat(
-        "StripGold", (1.0, 0.68, 0.14, 1.0), rough=0.24, metal=0.15,
-        em_rgba=(1.0, 0.62, 0.12, 1.0), em_str=2.6,
+        "StripGold", (0.98, 0.93, 0.80, 1.0), rough=0.28, metal=0.10,
+        em_rgba=(1.0, 0.94, 0.82, 1.0), em_str=1.6,
     )
     mat_strip_wire = make_emission_mat("StripWire", (1.0, 0.96, 0.72, 1.0), 3.2)
 

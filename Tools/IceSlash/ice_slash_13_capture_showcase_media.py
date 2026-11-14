@@ -19,6 +19,9 @@ LAND_FRAME = 42
 
 
 async def render_showcase(seq_dir, shots_dir):
+    unreal.ViewportService.set_editor_window_state("restore")
+    unreal.PerformanceService.set_background_throttling(False)
+    await asyncio.sleep(0.20)
     if os.path.exists(seq_dir):
         shutil.rmtree(seq_dir)
     os.makedirs(seq_dir, exist_ok=True)
@@ -127,8 +130,13 @@ async def render_showcase(seq_dir, shots_dir):
                     spawned.append(na_h)
 
         frame_png = os.path.join(seq_dir, f"frame_{f_idx:04d}.png")
-        unreal.ViewportService.capture_with_view(cam_loc, cam_rot, 1600, 900, frame_png, 64.0, True, 0.0)
-        if f_idx in hero_map:
+        for _try in range(3):
+            unreal.ViewportService.capture_with_view(cam_loc, cam_rot, 1600, 900, frame_png, 64.0, True, 0.0)
+            if os.path.exists(frame_png):
+                break
+            unreal.ViewportService.set_editor_window_state("restore")
+            await asyncio.sleep(0.10)
+        if f_idx in hero_map and os.path.exists(frame_png):
             shutil.copy2(frame_png, os.path.join(shots_dir, hero_map[f_idx]))
 
         for a_tmp in spawned:
@@ -141,4 +149,5 @@ async def render_showcase(seq_dir, shots_dir):
         actors["IceSlash_NS_Slash"].set_actor_hidden_in_game(False)
     unreal.ViewportService.set_game_view(False)
     unreal.ViewportService.set_realtime(True)
+    unreal.PerformanceService.set_background_throttling(True)
     return {"frames": total_frames, "single": single_png, "heroes": list(hero_map.values())}

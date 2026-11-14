@@ -24,7 +24,7 @@
 
 1. **底层衬底寒雾（`Mist` / `Fog_Arc`）**：垫在刀光最底下（透明度和排序最低），用很柔和的浅蓝白雾气把气氛烘托出来，绝对不能盖住上面的花纹。
 2. **核心主刀面（`Blade`）**：**一块纯平的月牙形圆弧网格面片（`SM_SlashArc_01`）**，上面贴着手绘感的外金内青冰浪卷纹贴图，随着粒子生命周期从刀尾扫到刀头。
-3. **外沿窄条自发光层（`Blade_OuterGlow`）**：**顺着刀背最外圈再单独叠一圈窄窄的圆弧面片（`SM_SlashOuterGlow_01`）**，贴上专门的发光渐变贴图，用 `Additive`（相加混合）打出炽热的金橙色光晕（Bloom），同时完全不会把刀面内部的深青色卷纹冲白！
+3. **外沿小范围低饱和自发光层（`Blade_OuterGlow`）**：**顺着刀背最外圈再单独叠一条仅约 `30 cm` 宽的窄条圆弧面片（`SM_SlashOuterGlow_01`）**，贴上**低饱和度淡香槟暖米白**发光贴图，用 `Additive`（相加混合）打出清透柔和的外沿空气辉光（Bloom），既不会过红刺眼，也完全不会把刀面内部的深青色卷纹冲白！
 4. **外圈稀疏星雪点缀（`Snowflakes` / `GoldStars`）+ 独立受击爆点（`NS_IceSlash_Hit`）**：沿着外弧撒 4～6 片小雪花和四角金星；**受击十字闪光必须单独做成另一个特效资产**，砍中敌人才触发，千万别跟刀光混在一起。
 
 ### 💬 这一步怎么跟 AI 说话？（复制即用 Prompt）
@@ -33,7 +33,7 @@
 > “请帮我在 UE5 里还原这张参考图里的金边冰霜刀光特效（附上参考图）。不要把所有东西塞进一个发射器乱喷粒子，请严格按大中小层级拆成：  
 > 1. 底层半透明寒雾衬底（`SortOrderHint` 最小，不遮挡刀面）；  
 > 2. 主体纯平圆弧网格刀面（外沿暖金高亮，内侧冰青色卷浪纹）；  
-> 3. 外沿单独再叠一层窄范围圆弧面片做 `Additive` 自发光辉光（`Blade_OuterGlow`）；  
+> 3. 外沿单独再叠一层小范围窄圆弧面片（约 `30 cm` 宽），用低饱和淡香槟暖米白做 `Additive` 自发光辉光（`Blade_OuterGlow`，切忌范围过大或偏红）；  
 > 4. 外圈少量雪花和四角金星点缀；  
 > 5. 受击十字爆点单独做成另一个 `NS_Hit` 系统，不要写进刀光本体里。先给我列出资产清单，我们一步步做。”
 
@@ -78,15 +78,17 @@
 看懂这三张贴图的分工，你就超过了 90% 的新手：
 1. **`T_SlashBlade_Painted.png`（主刀光彩色月牙贴图）**：对应主刀面的俯视平面 UV，外圈是炽热的白芯金橙刀背，往内过渡到冰青色并绘有手绘回旋冰浪亮线，头尾自然收尖。
 2. **`T_SlashBlade_BodyMask.png`（RGB 多通道遮罩）**：控制刀腹哪里通透挖空、哪里跟随粒子时间做扫掠消融。
-3. **`T_SlashOuterGlow.png`（外围自发光横向条带贴图，`1024×512`）**：专门贴在极坐标直 UV 的外圈窄面片 `SM_SlashOuterGlow_01` 上，贴上去后自动顺着圆弧弯成金焰刀背！
-   - **关键秘诀**：RGB 通道保持高饱和金橙到暖白（**不要**在存图时把 RGB 预先乘上 Alpha，否则外围半透明像素进引擎后亮度低于 `1.0`，根本触发不了 UE5 的 Bloom 泛光！），把中心亮、两侧柔化过渡的衰减只写在 Alpha 通道里，并且四周留出 **16 像素纯透明边（`Alpha = 0`）** 防止面片切边硬印。
+3. **`T_SlashOuterGlow.png`（外围自发光横向条带贴图，`2048×256`）**：专门贴在极坐标直 UV 的外圈小范围窄面片 `SM_SlashOuterGlow_01` 上，贴上去后自动顺着圆弧弯成柔和外发光边！
+   - **审美与融合双重秘诀**：
+     1) **小范围、低饱和、软羽化融合**！千万别做成一大圈刺眼的浓红或硬边白条：RGB 采用与刀背同色系的**低饱和度淡香槟暖金（`(1.0, 0.89, 0.69) → (1.0, 0.95, 0.83)`）**，内侧轻柔搭接进刀背暖金区消除接缝，外侧用**凹指数雾化曲线**平滑衰减到 `0`（峰值 Alpha 控制在 `~0.58` 不截平，配合克制的 `EmissiveBoost ≈ 0.9~1.2` 避免色调映射压成硬边亮带）；
+     2) 不要在存图时把 RGB 预先乘上 Alpha，并且四周留出 **16 像素纯透明边（`Alpha = 0`）** 防止面片切边硬印。
 
 ### 💬 这一步怎么跟 AI 说话？（复制即用 Prompt）
 
 > **发给 AI 的话术（根据参考图生成贴图）：**  
 > “参考我给你的刀光截图，请写 Python 脚本生成贴在上面两块纯平面片上的贴图：  
 > 1. **`T_SlashBlade_Painted.png` 与 `T_SlashBlade_BodyMask.png`**：对应主刀面俯视 UV，外沿画高亮暖白芯+金橙色刀背，内侧过渡到冰蓝与深青色手绘回旋浪花亮线，配套生成内腹挖空与消融遮罩。  
-> 2. **`T_SlashOuterGlow.png`（`1024×512` 横向条带 RGBA）**：专门贴在极坐标直 UV 的外圈窄面片上做自发光。RGB 保持高饱和金橙到暖白（不要预乘 Alpha！），径向柔光衰减写在 Alpha 通道里，刀头刀尾自然收尖。  
+> 2. **`T_SlashOuterGlow.png`（`2048×256` 横向条带 RGBA）**：专门贴在极坐标直 UV 的小范围窄面片上做外沿自发光。**RGB 请用低饱和度的淡香槟暖米白（`(1.0, 0.94, 0.83) → (1.0, 0.99, 0.96)`，切忌过红或高饱和深橙！且不要预乘 Alpha）**，径向柔光衰减写在 Alpha 通道里，刀头刀尾自然收尖。  
 > 3. **所有半透明粒子贴图（包括雪花、四角星、寒雾贴图）四周外沿 16 像素必须强制 `Alpha = 0`**，绝对不能出现方形硬切边。生成后把贴图发给我看一眼。”
 
 ---
@@ -103,8 +105,8 @@
 ![UE5外发光材质节点图](../Showcase/tut_ue_material_outer_glow.png)
 
 - **材质基础属性**：`Shading Model = Unlit`（无光照）、`Blend Mode = Additive`（相加发光混合）、勾选 `Two Sided`（双面显示，这样正反劈砍都能看见！）。
-- **自发光（Emissive Color）连线公式**：
-  $$\text{Emissive} = \text{Texture.RGB} \times \text{GlowTint} \times \text{EmissiveBoost}(4.2) \times \text{Texture.A} \times \text{ParticleColor.A}$$
+- **自发光（Emissive Color）连线公式**（配合低饱和暖香槟 `GlowTint = (1.0, 0.95, 0.84)` 与克制的 `EmissiveBoost = 0.92`，避免色调映射截平产生硬边亮带或二次染色偏红）：
+  $$\text{Emissive} = \text{Texture.RGB} \times \text{GlowTint} \times \text{EmissiveBoost}(0.92) \times \text{Texture.A} \times \text{ParticleColor.A}$$
 - 而主刀面材质 `M_SlashArc_v2` 则额外连入 **`ParticleRelativeTime`** 节点，让每一刀在 `0.44 秒` 生命周期内自动产生“从刀尾刷向刀头、再从刀尾溶解消失”的扫掠动画。
 
 ### 3.2 Niagara 里怎么叠发射器？（看清渲染层级与前后对比）
@@ -116,12 +118,12 @@
 | :---: | :--- | :--- | :--- |
 | `1 ~ 3` | `Mist` / `Smoke` / `Fog_Arc` | Sprite / Mesh | 垫在刀面下方的柔和冰雾，衬托体积感，不抢戏 |
 | `12` | **`Blade`** | Mesh (`SM_SlashArc_01`) | 核心主刀面，清晰展示外金内青的手绘卷浪纹理 |
-| `13` | **`Blade_OuterGlow`** | Mesh (`SM_SlashOuterGlow_01`) | **外围窄条自发光层**，`Additive` 混合打出金橙色外溢辉光 |
+| `13` | **`Blade_OuterGlow`** | Mesh (`SM_SlashOuterGlow_01`) | **外围小范围窄条自发光层**，`Additive` 混合打出低饱和暖白外溢柔光 |
 | `14 ~ 16` | `Deco_Snowflakes` / `GoldStars` / `FrostDust` | Sprite | 沿外弧少量生成的六角冰晶雪花、四角金星与细碎冰尘 |
 
-来看看**叠加外围窄条自发光面片（`Blade_OuterGlow`）前后的实机对比**——原本略显单薄的外沿立刻燃起一圈饱满通透的金焰辉光，而且刀腹内部的青色冰浪纹丝毫没有被冲白：
+来看看**叠加外围小范围低饱和自发光面片（`Blade_OuterGlow`）前后的实机对比**——原本略显单薄的外沿立刻晕开一圈细腻清透的淡香槟暖白柔光，既不过宽偏红，刀腹内部的青色冰浪纹也丝毫没有被冲白：
 
-| 叠加前（仅有主刀面 `Blade`） | 叠加后（外围窄面片 `Blade_OuterGlow` 自发光开启） |
+| 叠加前（仅有主刀面 `Blade`） | 叠加后（小范围低饱和 `Blade_OuterGlow` 自发光开启） |
 | :---: | :---: |
 | ![未加外发光](../Showcase/before_no_outer_glow.png) | ![加上外发光](../Showcase/after_outer_glow.png) |
 
@@ -132,8 +134,8 @@
 > **发给 AI 的话术（连材质节点 + 叠 Niagara 发射器）：**  
 > “现在面片和贴图都准备好了，请通过 UE5 Python / MCP 工具帮我搭建材质和 Niagara 系统 `NS_IceSlash_Slash`：  
 > 1. **主刀面材质 `M_SlashArc_v2`**：双面 `Two Sided`、无光照 `Unlit`，接入 `ParticleRelativeTime` 控制 `0 → 1` 的弧向扫掠显现与尾部溶解。  
-> 2. **外围自发光材质 `M_SlashOuterGlow`**：`Unlit` + `BLEND_Additive` + `Two Sided`，用 `Tex.RGB * GlowTint * EmissiveBoost(4.2) * Tex.A * ParticleColor.A` 连到自发光，打出柔和金橙色 Bloom。  
-> 3. **Niagara 叠层顺序**：底层寒雾 `SortOrderHint = 1..3` → 主刀面 `Blade` (`SM_SlashArc_01`, `SortOrderHint = 12`) → 外沿窄条自发光 `Blade_OuterGlow` (`SM_SlashOuterGlow_01`, `SortOrderHint = 13`) → 外弧少量雪花和四角星 (`SortOrderHint = 14..16`，每刀只出 4～6 颗小粒子)。  
+> 2. **外围自发光材质 `M_SlashOuterGlow`**：`Unlit` + `BLEND_Additive` + `Two Sided`，用 `Tex.RGB * GlowTint(1.0, 0.96, 0.88) * EmissiveBoost(2.2) * Tex.A * ParticleColor.A` 连到自发光，保持低饱和度柔和暖白辉光，千万别乘高饱和橙红颜色。  
+> 3. **Niagara 叠层顺序**：底层寒雾 `SortOrderHint = 1..3` → 主刀面 `Blade` (`SM_SlashArc_01`, `SortOrderHint = 12`) → 外沿小范围窄条自发光 `Blade_OuterGlow` (`SM_SlashOuterGlow_01`, `SortOrderHint = 13`) → 外弧少量雪花和四角星 (`SortOrderHint = 14..16`，每刀只出 4～6 颗小粒子)。  
 > 4. **特别检查**：网格发射器的 `Mesh Scale Mode` 必须设为 `Uniform = 1.0`，关掉重力和随机旋转，确保 `Blade_OuterGlow` 严丝合缝贴在 `Blade` 最外圈金边上！做完在 Game View 截一张对比图给我看。”
 
 ---

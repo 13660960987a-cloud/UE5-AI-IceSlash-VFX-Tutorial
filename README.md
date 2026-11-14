@@ -36,8 +36,8 @@
 | :---: | :---: | :---: |
 | ![主贴图](./Showcase/T_SlashBlade_Painted.png) | ![遮罩贴图](./Showcase/T_SlashBlade_BodyMask.png) | ![外发光贴图](./Showcase/T_SlashOuterGlow_Preview.png) |
 
-### 3. 外围窄条自发光面片（`Blade_OuterGlow`）叠加前后对比
-在主刀面外圈叠一层窄范围 `BLEND_Additive` 自发光面片后，刀背燃起通透饱满的金橙色 HDR Bloom 光晕，同时刀腹内部的冰青色卷浪花纹保持 100% 清晰锐利：
+### 3. 外围小范围窄条自发光面片（`Blade_OuterGlow`）叠加前后对比
+在主刀面外圈叠一层仅约 `30 cm` 宽的低饱和度淡香槟暖米白 `BLEND_Additive` 自发光面片后，刀背外沿晕开细腻清透的空气柔光（既不过宽偏红，刀腹内部的冰青色卷浪花纹也保持 100% 清晰锐利）：
 
 | 叠加前（仅有主刀面 `Blade`） | 叠加后（叠加 `Blade_OuterGlow` 外发光窄片） |
 | :---: | :---: |
