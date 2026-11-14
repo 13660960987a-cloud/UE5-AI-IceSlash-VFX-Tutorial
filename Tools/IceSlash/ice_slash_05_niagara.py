@@ -3016,73 +3016,15 @@ def build_canonical_slash_and_hit_systems(report, mis):
     report.modified(slash_pkg, 'configured canonical NS_IceSlash_Slash (7 emitters)')
     out['Slash'] = slash_pkg
 
-    # --- 2. Standalone NS_IceSlash_Hit ---
-    hit_specs = [
-        ('Hit_BlueSplash', TMP_EM_OMNI),
-        ('Hit_Rays', TMP_EM_OMNI),
-        ('Hit_Starburst', TMP_EM_OMNI),
-        ('Hit_Sparks', TMP_EM_OMNI),
-    ]
-    hit_pkg, hit_ref, hit_obj, hit_set = _ensure_standalone_system(report, HIT_SYS_NAME, hit_specs)
-
-    _ensure_skill_emitter(hit_ref, 'Hit_BlueSplash', TMP_EM_OMNI, hit_set)
-    _configure_omni_timed(
-        hit_ref, 'Hit_BlueSplash', spawn_time=0.0, count=4, life_min=0.18, life_max=0.28,
-        pos_offset=(0.0, 0.0, 0.0), sphere_radius=10.0,
-        vel_min=180.0, vel_max=400.0, gravity=(0, 0, 0), drag=3.0,
-        size_curve=[(0.0, 0.45), (0.30, 1.05), (1.0, 0.30)],
-        alpha_curve=[(0.0, 0.90), (0.50, 0.70), (1.0, 0.0)],
-    )
-    _set_input(hit_ref, 'Hit_BlueSplash', 'EmitterUpdateScript', 'EmitterState', 'Loop Duration', _val_float(0.8))
-    _set_color_range(hit_ref, 'Hit_BlueSplash', (0.05, 0.28, 0.82, 0.90), (0.18, 0.68, 1.0, 0.95))
-    _set_sprite_nonuniform_range(hit_ref, 'Hit_BlueSplash', (50.0, 150.0), (80.0, 240.0))
-    _update_sprite_renderer(hit_ref, 'Hit_BlueSplash', mis['GroundStreak'], 'VelocityAligned', 'FaceCamera', pivot=(0.5, 0.42), sort_hint=8)
-    _save_skill_checkpoint(hit_pkg)
-
-    _ensure_skill_emitter(hit_ref, 'Hit_Rays', TMP_EM_OMNI, hit_set)
-    _configure_omni_timed(
-        hit_ref, 'Hit_Rays', spawn_time=0.0, count=9, life_min=0.15, life_max=0.26,
-        pos_offset=(0.0, 0.0, 0.0), sphere_radius=10.0,
-        vel_min=380.0, vel_max=820.0, gravity=(0, 0, 0), drag=2.6,
-        size_curve=[(0.0, 0.55), (0.26, 1.12), (1.0, 0.16)],
-        alpha_curve=[(0.0, 1.0), (0.38, 0.88), (1.0, 0.0)],
-    )
-    _set_input(hit_ref, 'Hit_Rays', 'EmitterUpdateScript', 'EmitterState', 'Loop Duration', _val_float(0.8))
-    _set_color_range(hit_ref, 'Hit_Rays', (0.45, 0.92, 1.0, 1.0), (1.0, 0.84, 0.38, 1.0))
-    _set_sprite_nonuniform_range(hit_ref, 'Hit_Rays', (7.0, 180.0), (14.0, 380.0))
-    _update_sprite_renderer(hit_ref, 'Hit_Rays', mis['LightRay'], 'VelocityAligned', 'FaceCamera', pivot=(0.5, 0.32), sort_hint=20)
-    _save_skill_checkpoint(hit_pkg)
-
-    _ensure_skill_emitter(hit_ref, 'Hit_Starburst', TMP_EM_OMNI, hit_set)
-    _configure_omni_timed(
-        hit_ref, 'Hit_Starburst', spawn_time=0.0, count=2, life_min=0.18, life_max=0.25,
-        pos_offset=(0.0, 0.0, 0.0), sphere_radius=3.0,
-        vel_min=0.0, vel_max=4.0, gravity=(0, 0, 0), drag=1.0,
-        size_curve=[(0.0, 0.30), (0.40, 1.05), (1.0, 0.10)],
-        alpha_curve=[(0.0, 1.0), (0.52, 0.92), (1.0, 0.0)],
-    )
-    _set_input(hit_ref, 'Hit_Starburst', 'EmitterUpdateScript', 'EmitterState', 'Loop Duration', _val_float(0.8))
-    _set_color_range(hit_ref, 'Hit_Starburst', (1.0, 0.95, 0.68, 1.0), (1.0, 1.0, 1.0, 1.0))
-    _set_sprite_uniform_range(hit_ref, 'Hit_Starburst', 145.0, 210.0, 0.0, 360.0)
-    _update_sprite_renderer(hit_ref, 'Hit_Starburst', mis['ImpactStarburst'], 'Unaligned', 'FaceCamera', sort_hint=26)
-    _save_skill_checkpoint(hit_pkg)
-
-    _ensure_skill_emitter(hit_ref, 'Hit_Sparks', TMP_EM_OMNI, hit_set)
-    _configure_omni_timed(
-        hit_ref, 'Hit_Sparks', spawn_time=0.0, count=8, life_min=0.20, life_max=0.34,
-        pos_offset=(0.0, 0.0, 0.0), sphere_radius=14.0,
-        vel_min=360.0, vel_max=780.0, gravity=(0, 0, -380.0), drag=2.8,
-        size_curve=[(0.0, 0.7), (0.3, 1.1), (1.0, 0.0)],
-        alpha_curve=[(0.0, 1.0), (0.6, 0.85), (1.0, 0.0)],
-    )
-    _set_input(hit_ref, 'Hit_Sparks', 'EmitterUpdateScript', 'EmitterState', 'Loop Duration', _val_float(0.8))
-    _set_color_range(hit_ref, 'Hit_Sparks', (0.75, 0.95, 1.0, 1.0), (1.0, 0.88, 0.38, 1.0))
-    _set_sprite_uniform_range(hit_ref, 'Hit_Sparks', 12.0, 24.0, -15.0, 15.0)
-    _update_sprite_renderer(hit_ref, 'Hit_Sparks', mis['GoldStar'], 'Unaligned', 'FaceCamera', sort_hint=22)
-    EAL.set_metadata_tag(hit_obj, MODULAR_TAG, MODULAR_VERSION)
-    _save_skill_checkpoint(hit_pkg)
-    report.modified(hit_pkg, 'configured standalone NS_IceSlash_Hit (4 emitters)')
-    out['Hit'] = hit_pkg
+    # --- 2. Standalone NS_IceSlash_Hit (authentic piercing bi-color cut beam + ice shards via step 14) ---
+    hit_pkg = f'{C.NS_DIR}/{HIT_SYS_NAME}'
+    if EAL.does_asset_exist(hit_pkg):
+        out['Hit'] = hit_pkg
+    else:
+        hit_pkg, _hit_ref, hit_obj, _hit_set = _ensure_standalone_system(report, HIT_SYS_NAME, [('Hit_FrostMist', TMP_EM_OMNI)])
+        EAL.set_metadata_tag(hit_obj, MODULAR_TAG, MODULAR_VERSION)
+        _save_skill_checkpoint(hit_pkg)
+        out['Hit'] = hit_pkg
 
     return out
 

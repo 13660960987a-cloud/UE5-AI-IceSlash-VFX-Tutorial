@@ -43,6 +43,13 @@
 | :---: | :---: |
 | ![Before](./Showcase/before_no_outer_glow.png) | ![After](./Showcase/after_outer_glow.png) |
 
+### 4. 独立受击贯穿横光束与切面冰晶（`NS_IceSlash_Hit` — 挥空不触发，打到人才触发）
+斩击本体（`NS_IceSlash_Slash`）与受击反馈（`NS_IceSlash_Hit`）严格分离：挥空时只渲染冰霜月牙刀光；只有真正命中目标时，才沿挥砍切面生成 **“左青蓝 → 中心纯白 → 右暖金”一字尖锐贯穿横光束（`Hit_CutBeam`）+ 卡通双色切面冰晶碎块（`Hit_IceShards`）**。全场统一采用 UE5 自带 `SKM_Manny_Simple` 机器人演示，开箱即用无外部角色依赖：
+
+| 挥空状态（无受击特效） | 命中目标状态（触发贯穿受击横光束 + 切面冰晶） | 受击横光束贴图 (`T_VFX_HitCutBeam`) |
+| :---: | :---: | :---: |
+| ![EmptyAir](./Showcase/hit_01_empty_air_no_hit.png) | ![TargetHit](./Showcase/hit_02_target_hit_triggered.png) | ![CutBeamTex](./Showcase/T_VFX_HitCutBeam_Preview.png) |
+
 ---
 
 ## 📂 仓库目录结构

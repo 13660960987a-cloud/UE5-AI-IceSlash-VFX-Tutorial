@@ -18,14 +18,14 @@
 
 | 原版动作游戏参考帧 | UE 5.9 AI 全流程还原实机效果（含外弧自发光叠层） |
 | :---: | :---: |
-| ![参考帧](../Showcase/ref_slash_target.jpg) | ![UE5实机单刀](../Showcase/result_single_slash.png) |
+| ![参考帧](./成品参考媒体/ref_slash_target.jpg) | ![UE5实机单刀](./成品参考媒体/result_single_slash.png) |
 
 你看到的这一刀，绝对不是“一个粒子”变出来的，而是像做三明治一样由 **4 层主次分明的视觉元素** 叠出来的：
 
 1. **底层衬底寒雾（`Mist` / `Fog_Arc`）**：垫在刀光最底下（透明度和排序最低），用很柔和的浅蓝白雾气把气氛烘托出来，绝对不能盖住上面的花纹。
 2. **核心主刀面（`Blade`）**：**一块纯平的月牙形圆弧网格面片（`SM_SlashArc_01`）**，上面贴着手绘感的外金内青冰浪卷纹贴图，随着粒子生命周期从刀尾扫到刀头。
 3. **外沿小范围低饱和自发光层（`Blade_OuterGlow`）**：**顺着刀背最外圈再单独叠一条仅约 `30 cm` 宽的窄条圆弧面片（`SM_SlashOuterGlow_01`）**，贴上**低饱和度淡香槟暖米白**发光贴图，用 `Additive`（相加混合）打出清透柔和的外沿空气辉光（Bloom），既不会过红刺眼，也完全不会把刀面内部的深青色卷纹冲白！
-4. **外圈稀疏星雪点缀（`Snowflakes` / `GoldStars`）+ 独立受击爆点（`NS_IceSlash_Hit`）**：沿着外弧撒 4～6 片小雪花和四角金星；**受击十字闪光必须单独做成另一个特效资产**，砍中敌人才触发，千万别跟刀光混在一起。
+4. **外圈稀疏星雪点缀（`Snowflakes` / `GoldStars`）+ 独立贯穿受击横光束（`NS_IceSlash_Hit`）**：沿着外弧撒 4～6 片小雪花和四角金星；**受击效果是一道极细锐的“左青蓝 → 中心炽白 → 右暖金”一字贯穿横光束 + 飞溅小冰晶碎块（`NS_IceSlash_Hit`）**，必须单独拆成独立特效资产——**挥空时绝不出现，只有真正砍中目标时才在受击点触发**，千万别跟刀光本体混在一起。
 
 ### 💬 这一步怎么跟 AI 说话？（复制即用 Prompt）
 
@@ -35,7 +35,7 @@
 > 2. 主体纯平圆弧网格刀面（外沿暖金高亮，内侧冰青色卷浪纹）；  
 > 3. 外沿单独再叠一层小范围窄圆弧面片（约 `30 cm` 宽），用低饱和淡香槟暖米白做 `Additive` 自发光辉光（`Blade_OuterGlow`，切忌范围过大或偏红）；  
 > 4. 外圈少量雪花和四角金星点缀；  
-> 5. 受击十字爆点单独做成另一个 `NS_Hit` 系统，不要写进刀光本体里。先给我列出资产清单，我们一步步做。”
+> 5. 受击效果（左青蓝、中心纯白、右暖金的一字尖锐贯穿横光束 + 飞溅小冰晶碎块）必须单独拆成另一个 `NS_Hit` 系统，挥空绝不触发、打到敌人才触发，不要写进刀光本体里。先给我列出资产清单，我们一步步做。”
 
 ---
 
@@ -47,7 +47,7 @@
 
 | ① 主刀光圆弧面片（`SM_SlashArc_01`） | ② 外圈再叠一层窄条自发光面片（`SM_SlashOuterGlow_01`） |
 | :---: | :---: |
-| ![主刀光纯平面片](../Showcase/tutorial_mesh_01_main_arc.png) | ![外弧窄条自发光叠层](../Showcase/tutorial_mesh_02_outer_strip_stack.png) |
+| ![主刀光纯平面片](./成品参考媒体/tutorial_mesh_01_main_arc.png) | ![外弧窄条自发光叠层](./成品参考媒体/tutorial_mesh_02_outer_strip_stack.png) |
 
 ### ⚠️ 新手最容易踩的大坑：刀光面片必须是 `Z = 0` 的纯平面！
 很多时候 AI 如果没人提醒，会把刀光面片建成一个像“香蕉皮”或“碗口”一样上下弯曲的 3D 曲面。**这是错的！**
@@ -73,7 +73,7 @@
 
 | 主刀光手绘卷浪贴图（`T_SlashBlade_Painted.png`） | 刀身通道遮罩图（`T_SlashBlade_BodyMask.png`） | 外围窄条自发光贴图（`T_SlashOuterGlow` 预览） |
 | :---: | :---: | :---: |
-| ![主刀光贴图](../Showcase/T_SlashBlade_Painted.png) | ![刀身遮罩贴图](../Showcase/T_SlashBlade_BodyMask.png) | ![外围自发光贴图](../Showcase/T_SlashOuterGlow_Preview.png) |
+| ![主刀光贴图](./成品参考媒体/T_SlashBlade_Painted.png) | ![刀身遮罩贴图](./成品参考媒体/T_SlashBlade_BodyMask.png) | ![外围自发光贴图](./成品参考媒体/T_SlashOuterGlow_Preview.png) |
 
 看懂这三张贴图的分工，你就超过了 90% 的新手：
 1. **`T_SlashBlade_Painted.png`（主刀光彩色月牙贴图）**：对应主刀面的俯视平面 UV，外圈是炽热的白芯金橙刀背，往内过渡到冰青色并绘有手绘回旋冰浪亮线，头尾自然收尖。
@@ -97,12 +97,12 @@
 
 面片和贴图导入 UE 5.9（内容浏览器如下）之后，接下来就是让 AI 自动连材质球、搭 Niagara 粒子栈。
 
-![UE5内容浏览器贴图与资产](../Showcase/tut_ue_content_textures.png)
+![UE5内容浏览器贴图与资产](./成品参考媒体/tut_ue_content_textures.png)
 
 ### 3.1 材质球怎么连节点？（以 `M_SlashOuterGlow` 为例）
 打开我们在 UE 5.9 里生成的外发光材质球 `M_SlashOuterGlow`，节点其实非常清爽：
 
-![UE5外发光材质节点图](../Showcase/tut_ue_material_outer_glow.png)
+![UE5外发光材质节点图](./成品参考媒体/tut_ue_material_outer_glow.png)
 
 - **材质基础属性**：`Shading Model = Unlit`（无光照）、`Blend Mode = Additive`（相加发光混合）、勾选 `Two Sided`（双面显示，这样正反劈砍都能看见！）。
 - **自发光（Emissive Color）连线公式**（配合低饱和暖香槟 `GlowTint = (1.0, 0.95, 0.84)` 与克制的 `EmissiveBoost = 0.92`，避免色调映射截平产生硬边亮带或二次染色偏红）：
@@ -112,7 +112,7 @@
 ### 3.2 Niagara 里怎么叠发射器？（看清渲染层级与前后对比）
 打开 `/Game/VFX/IceSlash/Niagara/NS_IceSlash_Slash`，可以看到整个特效由多个职责单一的发射器按 `SortOrderHint` 从下往上叠起来：
 
-![UE5 Niagara发射器叠层结构](../Showcase/tut_ue_niagara_stack.png)
+![UE5 Niagara发射器叠层结构](./成品参考媒体/tut_ue_niagara_stack.png)
 
 | 排序 (`SortOrderHint`) | 发射器名称 | 渲染器类型 | 作用说明 |
 | :---: | :--- | :--- | :--- |
@@ -125,7 +125,7 @@
 
 | 叠加前（仅有主刀面 `Blade`） | 叠加后（小范围低饱和 `Blade_OuterGlow` 自发光开启） |
 | :---: | :---: |
-| ![未加外发光](../Showcase/before_no_outer_glow.png) | ![加上外发光](../Showcase/after_outer_glow.png) |
+| ![未加外发光](./成品参考媒体/before_no_outer_glow.png) | ![加上外发光](./成品参考媒体/after_outer_glow.png) |
 
 > **💡 必知避坑细节**：在 Niagara 里如果让 AI 用 `UpwardMeshBurst` 模板克隆网格发射器，一定要叮嘱 AI 把 `Initialize Particle` 里的 **`Mesh Scale Mode` 设为 `Uniform`（统一缩放 = `1.0`）**！如果留成 `Unset`，模板自带的随机 `0.5` 缩放会让外发光圆弧缩成只有一半大，卡在刀肚子中间对不齐外沿！
 
@@ -144,7 +144,7 @@
 
 单刀特效做好了，怎么绑到角色的四连斩动画（`AS_Guard_IceSlash_Combo`）上？
 
-![UE5动画编辑器绑定预览](../Showcase/tut_ue_anim_notifies.png)
+![UE5动画编辑器绑定预览](./成品参考媒体/tut_ue_anim_notifies.png)
 
 ### ⚠️ 千万别直接挂在右手 `hand_r` 上！
 一记刀光在空中要停留约 `0.44 秒`（13～14 帧）。角色挥完一刀收手时，手腕骨骼 `hand_r` 会剧烈翻转——如果你把特效挂在 `hand_r` 上并勾选 `Attached`，半空中的月牙刀光就会跟着手腕一起“大风车乱甩”！
@@ -159,7 +159,7 @@
 
 | 第 1 刀：斜劈斩 | 第 2 刀：反手横扫（`Pitch=158°` 自动镜像） | 第 4 刀：重劈下砸 |
 | :---: | :---: | :---: |
-| ![连招第1刀](../Showcase/result_combo_slash1.png) | ![连招第2刀](../Showcase/result_combo_slash2.png) | ![连招第4刀](../Showcase/result_combo_slash4_slam.png) |
+| ![连招第1刀](./成品参考媒体/result_combo_slash1.png) | ![连招第2刀](./成品参考媒体/result_combo_slash2.png) | ![连招第4刀](./成品参考媒体/result_combo_slash4_slam.png) |
 
 ### 💬 这一步怎么跟 AI 说话？（复制即用 Prompt）
 
@@ -177,13 +177,13 @@
 
 1. **先要纯平面片，不要弯曲模型**：“刀光面片必须严格躺在 `Z = 0` 纯平面上，UV 按 `U=弧向、V=径向` 拉直展开，斜劈角度靠旋转平面实现。”
 2. **贴图画横条，发光分窄片**：“贴图顺着直 UV 画横向长条；外围辉光单独叠一圈窄圆弧面片 + 不预乘 Alpha 的 `Additive` 发光贴图，四周留 16px 透明边。”
-3. **粒子排座次，受击要分家**：“底雾 `SortOrder` 排最下，主刀面居中，外沿自发光叠在刀背，雪花火星少量点缀；受击爆点单独拆成 `NS_Hit`。”
+3. **粒子排座次，受击要分家**：“底雾 `SortOrder` 排最下，主刀面居中，外沿自发光叠在刀背，雪花火星少量点缀；一字青白金贯穿受击横光束与冰晶碎块单独拆成 `NS_Hit`，只有打到敌人才触发（注意蓝青色碎块贴图导入 UE5 时强制设回常规 RGBA8 压缩、关闭流式加载，防误判成法线贴图变绿块或产生低清锯齿）。”
 4. **插槽挂 `root`，连招靠旋转**：“特效挂在 `root` 派生的胸口插槽防手腕乱甩，同一套单刀资产改 `Rotation Offset` 就能拼出全套连招。”
 
 ---
 
 ## 附：一键安装本项目的 AI Skill（以后一句话自动遵守以上全部规范！）
 
-我们已经把上面整套流程封装成了标准的 AI 技能包 [`stylized-slash-vfx`](../Skill/stylized-slash-vfx/SKILL.md)（同步包含在 [GitHub 仓库 `Skill/stylized-slash-vfx`](https://github.com/13660960987a-cloud/UE5-AI-IceSlash-VFX-Tutorial) 中）。
+我们已经把上面整套流程封装成了标准的 AI 技能包 [`stylized-slash-vfx`](./stylized-slash-vfx/SKILL.md)（同步包含在 [GitHub 仓库 `Skill/stylized-slash-vfx`](https://github.com/13660960987a-cloud/UE5-AI-IceSlash-VFX-Tutorial) 中）。
 
 把它放进你工程的 `.agents/skills/stylized-slash-vfx/` 目录后，你的 AI 助手就会自动掌握纯平面片、外弧自发光叠层、`root` 防甩飞插槽与 `Game View` 视觉自检全套规范！

@@ -84,8 +84,8 @@ GUARD_LOCATION = (0.0, 0.0, 0.0)
 # SK_Guard (like UE5 Manny) faces +Y in component space (tech plan 4.1 note; data JSON notes:
 # "character faces +Y"); yaw -90 turns component +Y onto world +X.
 GUARD_YAW = -90.0
-SK_GUARD_PATH = '/Game/Guard/Characters/Guard/SK_Guard'
-SK_GUARD_HEAD_PATH = '/Game/Guard/Characters/Guard/SK_Guard_Head'
+SK_GUARD_PATH = '/Game/Characters/Mannequins/Meshes/SKM_Manny_Simple'
+SK_GUARD_HEAD_PATH = ''          # UE5 built-in Manny robot is a single unified SkeletalMesh
 PREVIEW_OFFSET_S = 0.25          # pose = animation time of FX_Slash_01 + this
 
 FLOOR_Z = 0.0
@@ -586,8 +586,8 @@ def step_guard(ctx):
     if t_slash1 is None:
         t_slash1 = float(data['arcs'][0]['time_range_s'][0])
     t_pose = t_slash1 + PREVIEW_OFFSET_S
-    anim_path = C.ANIM_DIR + '/AS_Guard_IceSlash_Combo'
-    anim = load_or_todo(ctx, anim_path, 'retargeted Guard animation')
+    anim_path = C.ANIM_DIR + '/AS_Manny_IceSlash_Combo'
+    anim = load_or_todo(ctx, anim_path, 'retargeted Manny animation')
     ctx.pose = {'anim': anim_path if anim else None, 'time_s': round(t_pose, 4)}
     if anim is not None:
         anim_skel = anim.get_editor_property('skeleton')        # AnimationAsset.h:993-994
@@ -615,32 +615,32 @@ def step_guard(ctx):
     else:
         rep.info('IceSlash_Guard keeps the reference pose')
 
-    # Head: separate SkeletalMeshActor attached to the body and driven by a leader pose.
-    try:
-        head_sk = C.load(SK_GUARD_HEAD_PATH)
-        if head_sk is None:
-            raise RuntimeError('missing ' + SK_GUARD_HEAD_PATH)
-        h, _ = ctx.ensure_actor(unreal.SkeletalMeshActor, 'IceSlash_Guard_Head', FOLDER + '/Guard',
-                                GUARD_LOCATION, R(yaw=GUARD_YAW))
-        hc = h.skeletal_mesh_component
-        if FORCE or hc.get_editor_property('skeletal_mesh_asset') != head_sk:
-            mark(hc)
-            hc.set_skeletal_mesh_asset(head_sk)
-            rep.modified('actor IceSlash_Guard_Head', 'skeletal mesh ' + SK_GUARD_HEAD_PATH)
-        hc.set_collision_profile_name('NoCollision')
-        ensure_attached(ctx, 'IceSlash_Guard_Head', h, body, '', (0, 0, 0))
-        leader = None
+    # Head: optional separate SkeletalMeshActor (skipped when using UE5 unified SKM_Manny_Simple).
+    if SK_GUARD_HEAD_PATH:
         try:
-            leader = hc.get_editor_property('leader_pose_component')   # SkinnedMeshComponent.h:325-326
-        except Exception:
+            head_sk = C.load(SK_GUARD_HEAD_PATH)
+            if head_sk is None:
+                raise RuntimeError('missing ' + SK_GUARD_HEAD_PATH)
+            h, _ = ctx.ensure_actor(unreal.SkeletalMeshActor, 'IceSlash_Guard_Head', FOLDER + '/Guard',
+                                    GUARD_LOCATION, R(yaw=GUARD_YAW))
+            hc = h.skeletal_mesh_component
+            if FORCE or hc.get_editor_property('skeletal_mesh_asset') != head_sk:
+                mark(hc)
+                hc.set_skeletal_mesh_asset(head_sk)
+                rep.modified('actor IceSlash_Guard_Head', 'skeletal mesh ' + SK_GUARD_HEAD_PATH)
+            hc.set_collision_profile_name('NoCollision')
+            ensure_attached(ctx, 'IceSlash_Guard_Head', h, body, '', (0, 0, 0))
             leader = None
-        if FORCE or leader != body:
-            mark(hc)
-            hc.set_leader_pose_component(body, True)                    # SkinnedMeshComponent.h:1919-1920
-            rep.modified('actor IceSlash_Guard_Head', 'leader pose -> IceSlash_Guard')
-        rep.info('groom (hair) is optional and not added to the preview')
-    except Exception as exc:
-        rep.error('guard head', exc)
+            try:
+                leader = hc.get_editor_property('leader_pose_component')   # SkinnedMeshComponent.h:325-326
+            except Exception:
+                leader = None
+            if FORCE or leader != body:
+                mark(hc)
+                hc.set_leader_pose_component(body, True)                    # SkinnedMeshComponent.h:1919-1920
+                rep.modified('actor IceSlash_Guard_Head', 'leader pose -> IceSlash_Guard')
+        except Exception as exc:
+            rep.error('guard head', exc)
 
 
 def step_slash(ctx):

@@ -100,4 +100,7 @@ Compile status (`errors = 0`) is necessary but **never sufficient** for VFX. Alw
 3. Inspect each swing frame (`age ≈ 0.08–0.16s`):
    - **Thin line / invisible blade?** The slash plane is nearly edge-on (coplanar) with the camera ray — adjust `Roll` / `Pitch` by `15°–30°` within the swing's natural arc so both the character swing and gameplay camera read the full crescent face.
    - **Muddy / washed-out blade?** Lower secondary fog/smoke `OpacityBoost` or move its `SortOrderHint` below `Blade`.
+   - **Target-Hit VFX (`NS_*_Hit`) Rules**:
+     - Never bake hit flashes into `NS_*_Slash` or trigger them in empty air — spawn `NS_*_Hit` strictly when hit detection confirms a target was struck, aligned with the slash's cutting plane (`VelocityAligned + FaceCamera` bi-color needle cut beam + faceted crystal shards).
+     - **Blue/Cyan PNG Import Trap (`TC_NORMALMAP`)**: UE5's PNG importer auto-detects cyan/blue-heavy sprites (like ice shards) as `TC_NORMALMAP`, causing `SAMPLERTYPE_Color` materials to fail compilation and render neon-green fallback squares! Always explicitly set `compression_settings = TC_EDITOR_ICON` (for `srgb=True`) or `TC_VECTOR_DISPLACEMENTMAP` (for `srgb=False` / `SAMPLERTYPE_LinearColor`), `mip_gen_settings = TMGS_NO_MIPMAPS`, and `never_stream = True` on elongated cut beams and shard sprites so frame-1 spawns have zero green-fallback errors and zero DXT/mip-streaming stair-step jaggedness.
    - Always call `restore_viewport_info()` and save modified assets (`EditorAssetLibrary.save_asset`) when finished.
