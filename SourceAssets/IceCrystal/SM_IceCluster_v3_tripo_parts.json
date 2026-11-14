@@ -1,0 +1,86 @@
+[
+  {
+    "name": "SM_IceCluster_Core",
+    "faces": 869,
+    "verts": 872,
+    "size_m": [
+      7.014,
+      5.826,
+      5.225
+    ],
+    "z_range": [
+      0.0,
+      5.225
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Left",
+    "faces": 432,
+    "verts": 395,
+    "size_m": [
+      2.634,
+      3.207,
+      2.047
+    ],
+    "z_range": [
+      3.135,
+      5.182
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Right",
+    "faces": 286,
+    "verts": 289,
+    "size_m": [
+      3.836,
+      1.489,
+      1.589
+    ],
+    "z_range": [
+      3.235,
+      4.824
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Back",
+    "faces": 350,
+    "verts": 348,
+    "size_m": [
+      3.464,
+      3.965,
+      2.82
+    ],
+    "z_range": [
+      2.333,
+      5.153
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Boulders",
+    "faces": 906,
+    "verts": 471,
+    "size_m": [
+      6.384,
+      3.779,
+      3.894
+    ],
+    "z_range": [
+      1.703,
+      5.597
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Base",
+    "faces": 11178,
+    "verts": 5591,
+    "size_m": [
+      7.0,
+      6.284,
+      1.202
+    ],
+    "z_range": [
+      4.137,
+      5.339
+    ]
+  }
+]

@@ -1,0 +1,407 @@
+{
+  "units": "UE cm, X forward, Y right, Z up",
+  "mirror_correction": {
+    "needed": true,
+    "parent_scale": [
+      1,
+      -1,
+      1
+    ],
+    "explanation": "The guide is UE (left-handed) component-space cm. generate_slash_arcs_v4.py copied x,y,z unchanged into right-handed Blender metres, Blender exported with axis_forward=-Y/axis_up=Z (Rz180 on every node, Front=+Y in GlobalSettings), and UE's FBX import undoes the Rz180 and then negates Y for the RH->LH conversion. Net effect: imported arc vertex = (x, -y, z) of the guide-space position, a mirror across the XZ plane. Parent all arcs under a component attached to the skeletal mesh component with relative scale (1,-1,1) (identity location/rotation); children keep their imported transforms. That maps every vertex back to guide space, where it follows the hand path.",
+    "confidence": "high"
+  },
+  "arcs": [
+    {
+      "name": "SM_SlashArc_01",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "frame_range": [
+        10,
+        18
+      ],
+      "time_range_s": [
+        0.3333,
+        0.6
+      ],
+      "radius_cm": 250.0,
+      "sweep_deg": 210.0,
+      "max_width_cm": 105.0,
+      "bounds_cm": [
+        335.0,
+        489.0,
+        104.0
+      ]
+    },
+    {
+      "name": "SM_SlashArc_02",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "frame_range": [
+        14,
+        22
+      ],
+      "time_range_s": [
+        0.4667,
+        0.7333
+      ],
+      "radius_cm": 270.0,
+      "sweep_deg": 230.0,
+      "max_width_cm": 113.4,
+      "bounds_cm": [
+        536.0,
+        487.0,
+        130.0
+      ]
+    },
+    {
+      "name": "SM_SlashArc_03",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "frame_range": [
+        31,
+        42
+      ],
+      "time_range_s": [
+        1.0333,
+        1.4
+      ],
+      "radius_cm": 300.0,
+      "sweep_deg": 270.0,
+      "max_width_cm": 126.0,
+      "bounds_cm": [
+        600.0,
+        525.0,
+        74.0
+      ]
+    },
+    {
+      "name": "SM_SlashArc_04",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "frame_range": [
+        36,
+        46
+      ],
+      "time_range_s": [
+        1.2,
+        1.5333
+      ],
+      "radius_cm": 260.0,
+      "sweep_deg": 200.0,
+      "max_width_cm": 109.2,
+      "bounds_cm": [
+        443.0,
+        120.0,
+        485.0
+      ]
+    },
+    {
+      "name": "SM_SlashArc_05",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "scale": [
+        1,
+        1,
+        1
+      ],
+      "frame_range": [
+        37,
+        47
+      ],
+      "time_range_s": [
+        1.2333,
+        1.5667
+      ],
+      "radius_cm": 280.0,
+      "sweep_deg": 220.0,
+      "max_width_cm": 117.6,
+      "bounds_cm": [
+        395.0,
+        144.0,
+        560.0
+      ]
+    }
+  ],
+  "cluster_parts": [
+    {
+      "name": "SM_IceCluster_Core",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        701.4,
+        582.6,
+        522.5
+      ],
+      "faces": 869,
+      "material_role": "prism"
+    },
+    {
+      "name": "SM_IceCluster_Left",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        263.4,
+        320.7,
+        204.7
+      ],
+      "faces": 432,
+      "material_role": "prism"
+    },
+    {
+      "name": "SM_IceCluster_Right",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        383.6,
+        148.9,
+        158.9
+      ],
+      "faces": 286,
+      "material_role": "prism"
+    },
+    {
+      "name": "SM_IceCluster_Back",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        346.4,
+        396.5,
+        282.0
+      ],
+      "faces": 350,
+      "material_role": "prism"
+    },
+    {
+      "name": "SM_IceCluster_Boulders",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        638.4,
+        377.9,
+        389.4
+      ],
+      "faces": 906,
+      "material_role": "boulder"
+    },
+    {
+      "name": "SM_IceCluster_Base",
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": {
+        "roll": 0.0,
+        "pitch": 0.0,
+        "yaw": 0.0
+      },
+      "size_cm": [
+        700.0,
+        628.4,
+        120.2
+      ],
+      "faces": 11178,
+      "material_role": "snowbase"
+    }
+  ],
+  "cluster_scale": 1.0,
+  "cluster_center_cm": [
+    0.0,
+    0.0,
+    0.0
+  ],
+  "anim": {
+    "asset": "/Game/RamsterZ_FreeAnims_Volume1/AnimationSequence/1HM/1HM_AerialSwing01_2HitCombo",
+    "fps": 30,
+    "duration_s": 2.0333,
+    "frames": 61
+  },
+  "anim_start_offset_s": 1.0667,
+  "timeline": [
+    {
+      "event": "FX_HandEnergy_Start",
+      "time_s": 0.0,
+      "source": "plan"
+    },
+    {
+      "event": "FX_Slash_01",
+      "time_s": 1.4,
+      "source": "anim"
+    },
+    {
+      "event": "FX_Slash_02",
+      "time_s": 1.5333,
+      "source": "anim"
+    },
+    {
+      "event": "FX_Slash_03",
+      "time_s": 2.1,
+      "source": "anim"
+    },
+    {
+      "event": "FX_Slash_04",
+      "time_s": 2.2667,
+      "source": "anim"
+    },
+    {
+      "event": "FX_Slash_05",
+      "time_s": 2.3,
+      "source": "anim"
+    },
+    {
+      "event": "FX_Slash_Impact",
+      "time_s": 2.4667,
+      "source": "anim"
+    },
+    {
+      "event": "FX_IceBurst",
+      "time_s": 3.2,
+      "source": "plan"
+    },
+    {
+      "event": "FX_CrystalReveal",
+      "time_s": 4.3,
+      "source": "plan"
+    },
+    {
+      "event": "FX_CrystalHold",
+      "time_s": 5.0,
+      "source": "plan"
+    },
+    {
+      "event": "FX_End",
+      "time_s": 5.8,
+      "source": "plan"
+    }
+  ],
+  "arc_reveal": {
+    "start_offset_s": 0.05,
+    "full_s": 0.2,
+    "gone_s": 0.35
+  },
+  "notes": [
+    "pivot_cm is the arc/part origin exactly as UE's FBX import produces it (Blender metres x100 with Y negated), i.e. BEFORE the mirror correction. Arcs: origin = slash head (UV.x=0). Cluster parts: origin = part bottom centre.",
+    "Blender FBX export (axis_forward=-Y, axis_up=Z, bake_space_transform=False, FBX_SCALE_ALL) wrote GlobalSettings Up=+Z, Front=+Y, Coord=-X, UnitScaleFactor=100 and every Model as Lcl Translation (-x,-y,z), Lcl Rotation (0,0,180): verified in fbx_extract_raw.json. UE (Interchange FFbxConvert::ConvertScene, target Z-up / front -Y / RH) re-rotates by 180 deg about Z, which cancels Blender's 180, then FFbxConvert::ConvertPos negates Y (RH->LH) and units become cm. Net: UE = (100x, -100y, 100z) with zero rotation for every object.",
+    "SlashGuide is UE component space (left-handed, character faces +Y, right hand on -X, root motion +247 cm along +Y). generate_slash_arcs_v4.py copied those numbers into right-handed Blender unchanged, so the imported arcs are the Y-mirror of the hand path. Fix: put all arcs under one parent whose RELATIVE scale is (1,-1,1), attached to the skeletal mesh component (not the capsule/actor root) at identity location/rotation; each arc keeps its imported relative transform (pivot_cm, zero rotation) or (0,0,0) if the meshes were baked. Per-arc equivalent without a parent: world = MeshComponentTransform * Scale(1,-1,1) * Translate(pivot_cm), i.e. actor location (px, -py, pz) in component space with actor scale (1,-1,1).",
+    "Evidence: verify_arc_reproduction.py re-runs the v4 fitting code on the guide and matches the FBX centre-lines to < 0.001 mm in the guide's own x,y,z, while the Y-mirrored (as-imported) arcs miss by 3.4-7.4 m. Mean distance from the sampled hand path to the arc centre-line is 104.7 cm with the correction versus 315.5 cm without it. The corrected residual is by design: v4 forces radius to 130/170/220 cm, pulls the centre 68% toward the pelvis and shifts arcs 0/30/60 cm along -Y.",
+    "Facing: in guide space the character faces +Y (root motion +Y, right hand on -X). The v4 author treated -Y as 'front' (forward_offset along -Y, plane normals forced to -Y, preview camera at -Y), so after correction the 0/30/60 cm offsets push arcs 02/03 slightly BEHIND the travel direction and the arcs' authored front faces look toward mesh -Y. The material is TwoSided, so this only matters for camera framing.",
+    "Arc 04 dips to z=-72 cm and arc 05 to z=-33 cm below the floor (component space, floor at z=0) and arc 02's tail reaches z=+9 cm; the floor clips those parts (DepthFade softens the cut).",
+    "Negative parent scale reverses triangle winding; UE flips culling for negative-determinant transforms, and M_SlashArc_v2 is TwoSided anyway, so nothing else changes. The arc's V=0 (gold rim) edge is mirrored with the mesh.",
+    "FBX import mode matters: Interchange default bake_meshes=True writes node transforms into the vertices, so every StaticMesh pivot becomes the FBX scene origin (anim component-space origin). In that case place each arc at (0,0,0) under the (1,-1,1) parent. With bake_meshes=False the pivot stays at pivot_cm (slash head / part bottom centre). Verify after import: StaticMesh bounding-box size must equal bounds_cm (arcs) / size_cm*1 (parts); a 100x smaller size means FBX unit scale ended up on the node and must be compensated (import_uniform_scale 100 or bake).",
+    "The cluster parts need bake_meshes=False (or equivalent) because M_IceCrystal_v2 measures growth height from ObjectPositionWS; with baked meshes the object origin would be the cluster origin, 37.4 cm (x4 = 149.6 cm) above the snow-disc bottom.",
+    "cluster_center_cm is the ground anchor in imported UE cm at scale 1: XY = centre of the union of all six parts, Z = bottom of SM_IceCluster_Base (the snow disc). Prism roots reach 6.25 cm lower (union bottom z=-43.65), i.e. 25.0 cm below the floor at scale 4, which hides them. To stand the cluster on FX_CrystalCenter: cluster parent at the socket with uniform scale 4 and each part at relative location (pivot_cm - cluster_center_cm) (relative values are multiplied by the parent's scale 4). Mirroring is irrelevant for the cluster (no animation link); the split script's 'Back' group (+Y in Blender) ends up on -Y in UE. Union size at scale 1 = [99.8, 99.8, 87.3] cm, at scale 4 = [399.2, 399.2, 349.2] cm.",
+    "rotation_deg is zero for every object: Blender objects carried only location (no rotation/scale) and the two 180-degree Z rotations cancel in UE's axis conversion.",
+    "Arc radius_cm / sweep_deg / max_width_cm are the generator values (generate_slash_arcs_v4.py SEGMENTS after its clamps); measured from the FBX mesh: radius within 0.01 cm, sweep within 0.1 deg, width up to 0.01 cm smaller (96 samples miss u=0.5 exactly). bounds_cm is the local AABB size (abs, unaffected by the mirror).",
+    "time_range_s on arcs are ANIMATION times (frame/30); add anim_start_offset_s for sequence time. All timeline time_s values are sequence times.",
+    "anim_start_offset_s = 1.4 - 10/30 = 1.0667 s: the attack starts at that sequence time and holds frame 0 before it (hand-energy prep 0.0-1.4 s). The animation then ends at 3.1000 s sequence time (duration 2.0333 s); hold its last frame afterwards.",
+    "FX_Slash_01..05 are anim-matched: notify at each arc's window start f0 (arc reveal +0.05 s, full +0.20 s, gone +0.35 s). With f0 as the trigger, FX_Slash_01 reaches full brightness at anim frame 16 (0.533 s), the peak hand speed of that swing. Plan times were 1.4 / 1.8 / 2.2 for slashes 1-3; anim-matched slash 2 is 1.5333 and slash 3 is 2.1000. Slashes 04 and 05 are the extra layers of the big third sweep (05 is the left hand).",
+    "FX_Slash_Impact is anim-matched to frame 42 (anim 1.4000 s), where the downward swing lands: hand_r z=14.0 cm and its speed drops from 1978 to 250 cm/s; plan said 2.6 s. Hand_r at impact (guide = corrected component space) = (-13.7, 341.4, 14.0) cm; pelvis = (-27.4, 268.5, 47.7) cm, so the impact lies ~73 cm in front of the pelvis, not the plan's 165 cm socket offset (that offset assumed the root stays put; here the root travels with the lunge).",
+    "Showcase check (if the correction is right): seen from the side, all five arcs sit along the lunge, between the start position and ~3.75 m ahead along mesh +Y (corrected world AABBs span y = +4..+375 cm), wrapping the character's path (arc 03 circle centre ~(-15, 201, 137) cm vs pelvis mean ~(-25, 223, 113) during its swing); arc 03's tail ends near the ground just short of where hand_r lands at frame 42; at FX_Slash_01 + 0.20 s the right hand (41.9, 189.7, 158.5) is inside arc 01's circle (68 cm from its centre, radius 130) on the character's left side (mesh +X). If the arcs instead extend 0-3.75 m BEHIND the start position (mesh -Y) while the character lunges forward, the (1,-1,1) parent is missing or applied at the wrong level.",
+    "FX_IceBurst 3.2, FX_CrystalReveal 4.3, FX_CrystalHold 5.0 and FX_End 5.8 keep the user's plan times (burst 3.2-4.3, grow 4.3-5.0, hold 5.0-5.8, settle/fade 5.8-7.0; the sequence ends at 7.0). FX_End marks the start of the fade. Every event after 3.1000 s happens after the animation has ended, so those must be Sequencer events (or an AnimNotify placed on a held/extended section), not AnimNotifies inside the 2.03 s sequence asset.",
+    "If AnimNotifies are added to the AnimSequence asset itself, use animation time = time_s - anim_start_offset_s (FX_Slash_01 0.3333, _02 0.4667, _03 1.0333, _04 1.2000, _05 1.2333, FX_Slash_Impact 1.4000).",
+    "The guide includes root motion (pelvis travels from y=0 to y=247 cm). The arcs line up only if the animation plays without root-motion extraction/root lock (component-space root moves). If the AnimSequence has enable_root_motion=True and the player locks the root, the hand path shifts back by the root translation (up to ~247 cm along mesh +Y) and the arcs will appear ahead of the character.",
+    "The guide was sampled on the RamsterZ (UE4 mannequin) skeleton. On Guard (via RTG_TraversalUE4ToManny/RTG_Guard) proportions differ, so expect a few cm to ~20 cm deviation between Guard's hand and the arcs.",
+    "anim.frames = 61 = duration*fps frame intervals; the guide holds 61 samples (t = 0.0..2.0 s) and the UE sequence has 62 keys (0..61).",
+    "v5 arcs (2026-11-12): wide blade crescents authored around the character root; pivots at origin, no per-arc rotation. Source: Saved/VFX/SlashArcs_v5_cm.fbx."
+  ]
+}

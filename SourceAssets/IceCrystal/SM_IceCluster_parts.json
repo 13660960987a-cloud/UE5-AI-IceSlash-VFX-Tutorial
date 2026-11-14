@@ -1,0 +1,72 @@
+[
+  {
+    "name": "SM_IceCluster_Core",
+    "faces": 1444,
+    "verts": 817,
+    "size_m": [
+      0.484,
+      0.511,
+      0.724
+    ],
+    "z_range": [
+      -0.315,
+      0.409
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Left",
+    "faces": 703,
+    "verts": 518,
+    "size_m": [
+      0.44,
+      0.665,
+      0.468
+    ],
+    "z_range": [
+      -0.315,
+      0.153
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Right",
+    "faces": 1732,
+    "verts": 1117,
+    "size_m": [
+      0.447,
+      0.576,
+      0.328
+    ],
+    "z_range": [
+      -0.315,
+      0.013
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Back",
+    "faces": 977,
+    "verts": 676,
+    "size_m": [
+      0.715,
+      0.411,
+      0.392
+    ],
+    "z_range": [
+      -0.315,
+      0.077
+    ]
+  },
+  {
+    "name": "SM_IceCluster_Base",
+    "faces": 10528,
+    "verts": 5891,
+    "size_m": [
+      0.998,
+      0.953,
+      0.094
+    ],
+    "z_range": [
+      -0.409,
+      -0.315
+    ]
+  }
+]
